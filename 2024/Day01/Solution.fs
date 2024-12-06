@@ -17,7 +17,7 @@ let readInput () : array<int * int> =
     |> Seq.toArray
 
 
-let solve () : int  =
+let sumOfSortedAbsDiff () : int  =
     let nums = readInput ()
     let num1 =  nums |> Array.map fst |> Array.sort
     let num2 =  nums |> Array.map snd |> Array.sort
@@ -25,3 +25,21 @@ let solve () : int  =
     ||> Array.zip
     |> Array.map (fun (x, y) -> abs (x - y))
     |> Array.sum
+
+let similarityScore () : int64 =
+    let nums = readInput ()
+    let num1 =  nums |> Array.map fst |> Array.sort
+    let num2 =  nums |> Array.map snd |> Array.sort
+    let counts =
+        num2
+        |> Array.countBy id
+        |> Map.ofArray
+    num1
+    |> Array.map (fun n ->
+        counts.TryFind n
+        |> function
+            | None -> 0L
+            | Some x -> ((int64) n) * (int64) x
+        )
+    |> Array.sum
+
