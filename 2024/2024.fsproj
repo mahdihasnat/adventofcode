@@ -13,7 +13,7 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Day01\input.txt" >
+    <Content Include="*/*.txt" >
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Compile Include="Day01\Solution.fs" />
