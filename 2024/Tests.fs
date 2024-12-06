@@ -14,3 +14,4 @@ type Tests(output: ITestOutputHelper) =
     [<Fact>]
     let ``Day 02`` () =
         output.WriteLine($"Count: {Day02.countSafe ()}");
+        output.WriteLine($"CountWithMod: {Day02.countSafeWithMod ()}")

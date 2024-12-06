@@ -15,20 +15,33 @@ let readInputs () : array<array<int>> =
     }
     |> Seq.toArray
 
+let isSafe (arr: array<int>) : bool =
+    arr
+    |> Array.pairwise
+    |> Array.map (fun (a, b) ->
+        let diff = abs (a - b)
+        1 <= diff && diff <= 3, a < b
+    )
+    |> fun arr ->
+        (arr |> Array.map fst |> Array.forall id)
+        && (arr |> Array.map snd |> Set.ofArray |> Set.count = 1)
+
 let countSafe () : int =
     let inputs = readInputs ()
     inputs
     |> Array.sumBy (fun arr ->
         arr
-        |> Array.pairwise
-        |> Array.map (fun (a, b) ->
-            let diff = abs (a - b)
-            1 <= diff && diff <= 3, a < b
-        )
-        |> fun arr ->
-            printfn $"%A{arr}"
-            (arr |> Array.map fst |> Array.forall id)
-            && (arr |> Array.map snd |> Set.ofArray |> Set.count = 1)
+        |> isSafe
+        |> function
+            | true -> 1
+            | false -> 0
+    )
+
+let countSafeWithMod () : int =
+    let inputs = readInputs ()
+    inputs
+    |> Array.sumBy (fun arr ->
+        ((arr |> isSafe) || (Seq.init arr.Length id |> Seq.map (fun i -> arr |> Array.removeAt i |> isSafe) |> Seq.exists id))
         |> function
             | true -> 1
             | false -> 0
