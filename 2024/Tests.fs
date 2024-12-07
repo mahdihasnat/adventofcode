@@ -19,3 +19,4 @@ type Tests(output: ITestOutputHelper) =
     [<Fact>]
     let ``Day 03`` () =
         output.WriteLine($"SumOfMul: {Day03.sumOfMul ()}");
+        output.WriteLine($"ConditionalSumOfMul: {Day03.conditionalSumOfMul ()}")
