@@ -15,3 +15,7 @@ type Tests(output: ITestOutputHelper) =
     let ``Day 02`` () =
         output.WriteLine($"Count: {Day02.countSafe ()}");
         output.WriteLine($"CountWithMod: {Day02.countSafeWithMod ()}")
+
+    [<Fact>]
+    let ``Day 03`` () =
+        output.WriteLine($"SumOfMul: {Day03.sumOfMul ()}");
