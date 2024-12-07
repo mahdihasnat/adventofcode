@@ -24,3 +24,4 @@ type Tests(output: ITestOutputHelper) =
     [<Fact>]
     let ``Day 04`` () =
         output.WriteLine($"CountOccurrence: {Day04.countOccurrence ()}")
+        output.WriteLine($"CountCrossOccurrence: {Day04.countCrossOccurrence ()}")

@@ -2,7 +2,7 @@ module Day04
 
 open System.IO
 
-let readdInput () : array<string> =
+let readInput () : array<string> =
     let reader = new StreamReader("Day04/input.txt")
     seq {
         while not reader.EndOfStream do
@@ -40,8 +40,32 @@ let matchString (grid: array<string>) (directions: array<int*int>) (x: int) (y: 
     |> fst
     |> Array.forall id
 
+let matchCrossMas (grid: array<string>) (x: int) (y: int) : bool =
+    if grid[x][y] <> 'A' then
+        false
+    else
+        [|
+            [| (+1, +1); (-1, -1)|]
+            [| (+1, -1); (-1, +1)|]
+        |]
+        |> Array.map (fun positions ->
+            positions
+            |> Array.choose (fun (dx, dy) ->
+                let x = x + dx
+                let y = y + dy
+                if 0 <= x && x < grid.Length && 0 <= y && y < grid[0].Length then
+                    Some (grid[x][y])
+                else
+                    None
+            )
+            |> Set.ofArray
+            |> fun st ->
+                st = set ['M'; 'S']
+        )
+        |> Array.forall id
+
 let countOccurrence (): int =
-    let input = readdInput ()
+    let input = readInput ()
     Seq.init input.Length id
     |> Seq.allPairs (Seq.init input[0].Length id)
     |> Seq.sumBy (fun (x,y) ->
@@ -52,4 +76,14 @@ let countOccurrence (): int =
                 | true -> 1
                 | false -> 0
         )
+    )
+let countCrossOccurrence (): int =
+    let input = readInput ()
+    Seq.init input.Length id
+    |> Seq.allPairs (Seq.init input[0].Length id)
+    |> Seq.sumBy (fun (x,y) ->
+        matchCrossMas input x y
+        |> function
+            | true -> 1
+            | false -> 0
     )
