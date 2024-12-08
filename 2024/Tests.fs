@@ -25,3 +25,7 @@ type Tests(output: ITestOutputHelper) =
     let ``Day 04`` () =
         output.WriteLine($"CountOccurrence: {Day04.countOccurrence ()}")
         output.WriteLine($"CountCrossOccurrence: {Day04.countCrossOccurrence ()}")
+
+    [<Fact>]
+    let ``Day 05`` () =
+        output.WriteLine($"SumOfValidMid: {Day05.sumOfValidMid ()}")
