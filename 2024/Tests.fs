@@ -30,3 +30,7 @@ type Tests(output: ITestOutputHelper) =
     let ``Day 05`` () =
         output.WriteLine($"SumOfValidMid: {Day05.sumOfValidMid ()}")
         output.WriteLine($"SumOfInvalidMid: {Day05.sumOfInvalidMid ()}")
+
+    [<Fact>]
+    let ``Day 06`` () =
+        output.WriteLine($"DistinctLocation: {Day06.distinctLocation ()}")
