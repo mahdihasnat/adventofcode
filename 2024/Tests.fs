@@ -34,3 +34,4 @@ type Tests(output: ITestOutputHelper) =
     [<Fact>]
     let ``Day 06`` () =
         output.WriteLine($"DistinctLocation: {Day06.distinctLocation ()}")
+        output.WriteLine($"LoopGenCount: {Day06.loopGenCount ()}")
