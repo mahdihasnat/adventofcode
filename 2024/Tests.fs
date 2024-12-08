@@ -29,3 +29,4 @@ type Tests(output: ITestOutputHelper) =
     [<Fact>]
     let ``Day 05`` () =
         output.WriteLine($"SumOfValidMid: {Day05.sumOfValidMid ()}")
+        output.WriteLine($"SumOfInvalidMid: {Day05.sumOfInvalidMid ()}")
