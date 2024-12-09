@@ -35,3 +35,7 @@ type Tests(output: ITestOutputHelper) =
     let ``Day 06`` () =
         output.WriteLine($"DistinctLocation: {Day06.distinctLocation ()}")
         output.WriteLine($"LoopGenCount: {Day06.loopGenCount ()}")
+
+    [<Fact>]
+    let ``Day 07`` () =
+        output.WriteLine($"SumOfTrueSum: {Day07.sumOfTrueSum ()}")
