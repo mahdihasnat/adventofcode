@@ -39,3 +39,4 @@ type Tests(output: ITestOutputHelper) =
     [<Fact>]
     let ``Day 07`` () =
         output.WriteLine($"SumOfTrueSum: {Day07.sumOfTrueSum ()}")
+        output.WriteLine($"SumOfTrue3Sum: {Day07.sumOfTrue3Sum ()}")
