@@ -44,3 +44,4 @@ type Tests(output: ITestOutputHelper) =
     [<Fact>]
     let ``Day 08`` () =
         output.WriteLine($"UniAntiNodes: {Day08.uniAntiNodes ()}")
+        output.WriteLine($"UniqueMultipleAntiNodes: {Day08.uniqueMultipleAntiNodes ()}")
