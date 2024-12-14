@@ -49,3 +49,4 @@ type Tests(output: ITestOutputHelper) =
     [<Fact>]
     let ``Day 09`` () =
         output.WriteLine($"CheckSum: {Day09.checkSum ()}")
+        output.WriteLine($"CgeckSumWithCompleteMove: {Day09.checkSumWithCompleteMove ()}")
