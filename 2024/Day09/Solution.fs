@@ -85,12 +85,9 @@ let blocksFromSegments (arr: array<Segment>) : array<BlockType> =
 
 let checkSumWithCompleteMove () : int64 =
     let input = readInput ();
-    // let input = "2333133121414131402"
     let segments =
         input
         |> fileSegments
-
-    let ogBlockLength = segments |> blocksFromSegments |> Array.length
 
     let emptySegments : array<Set<int>> =
         segments
@@ -107,10 +104,6 @@ let checkSumWithCompleteMove () : int64 =
 
     let segments : Segment array =
         segments
-        // |> fun x ->
-        //     printfn "input: %A" x
-        //     printfn "emptySegments: %A" emptySegments
-        //     x
         |> Array.rev
         |> Array.mapFold (fun (emptySegments : array<Set<int>>) (segment) ->
             match segment with
@@ -149,11 +142,9 @@ let checkSumWithCompleteMove () : int64 =
                         None
                 )
                 |> Option.map (fun (firstPos, emptySegments) ->
-                    // printfn $"Moving %A{(length, index, id)} to %A{firstPos} empty: %A{emptySegments}"
                     (Some (Segment.File (length, firstPos, id))), emptySegments
                 )
                 |> Option.defaultWith (fun () ->
-                    // printfn $"NotMoving %A{(length, index, id)} empty: %A{emptySegments}"
                     (Some (Segment.File (length, index, id))), emptySegments
                 )
         ) emptySegments
@@ -172,19 +163,6 @@ let checkSumWithCompleteMove () : int64 =
             |> Array.sortBy (function | Segment.Empty (len, index) -> index, 0 | Segment.File (len, index, id) -> index, - id)
 
     segments
-    // |> fun x ->
-    //     printfn "%A" x
-    //     x
     |> blocksFromSegments
-    |> fun x ->
-        printfn $"ogBlockLength: {ogBlockLength}"
-        printfn $"now: {x |> Array.length}"
-        assert (x |> Array.length = ogBlockLength)
-
-        x
-    // |> fun x ->
-    //     printfn "%A" x
-    //     x
-    // |> Array.choose (fun x -> match x with | BlockType.Data _ -> Some x | _ -> None)
     |> Array.mapi (fun i x -> int64 i * (match x with | BlockType.Data t -> int64 t | BlockType.Empty -> 0L))
     |> Array.sum
