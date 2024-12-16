@@ -89,6 +89,9 @@ let checkSumWithCompleteMove () : int64 =
     let segments =
         input
         |> fileSegments
+
+    let ogBlockLength = segments |> blocksFromSegments |> Array.length
+
     let emptySegments : array<Set<int>> =
         segments
         |> Array.choose (function
@@ -115,29 +118,33 @@ let checkSumWithCompleteMove () : int64 =
             | Segment.File (length, index, id) ->
                 emptySegments
                 |> Array.mapi (fun index arr -> (index, arr))
-                |> Array.tryPick (fun (holeLength, holeIndexes) ->
+                |> Array.choose (fun (holeLength, holeIndexes) ->
                     if length <= holeLength then
                         if holeIndexes.IsEmpty then
                             None
                         else
-                            let firstPos = holeIndexes.MinimumElement
-                            if firstPos < index then
-                                let remainingHoleLength  = holeLength - length
-                                let updatedEmptySegments =
-                                    emptySegments
-                                    |> fun emptySegments ->
-                                        emptySegments
-                                        |> Array.updateAt holeLength (Set.difference holeIndexes (Set.singleton firstPos))
-                                    |> fun emptySegments ->
-                                        emptySegments
-                                        |> Array.updateAt remainingHoleLength (Set.add firstPos (emptySegments.[remainingHoleLength]))
-                                    |> fun emptySegments ->
-                                        emptySegments
-                                        |> Array.updateAt length (Set.add index (emptySegments.[length]))
+                            Some (holeLength, holeIndexes.MinimumElement)
+                    else
+                        None
+                )
+                |> Array.sortBy snd
+                |> Array.tryHead
+                |> Option.bind (fun (holeLength, firstPos) ->
+                    if firstPos < index then
+                        let remainingHoleLength  = holeLength - length
+                        let updatedEmptySegments =
+                            emptySegments
+                            |> fun emptySegments ->
+                                emptySegments
+                                |> Array.updateAt holeLength (Set.difference emptySegments.[holeLength] (Set.singleton firstPos))
+                            |> fun emptySegments ->
+                                emptySegments
+                                |> Array.updateAt remainingHoleLength (Set.add firstPos (emptySegments.[remainingHoleLength]))
+                            |> fun emptySegments ->
+                                emptySegments
+                                |> Array.updateAt length (Set.add index (emptySegments.[length]))
 
-                                Some (firstPos, updatedEmptySegments)
-                            else
-                                None
+                        Some (firstPos, updatedEmptySegments)
                     else
                         None
                 )
@@ -169,6 +176,12 @@ let checkSumWithCompleteMove () : int64 =
     //     printfn "%A" x
     //     x
     |> blocksFromSegments
+    |> fun x ->
+        printfn $"ogBlockLength: {ogBlockLength}"
+        printfn $"now: {x |> Array.length}"
+        assert (x |> Array.length = ogBlockLength)
+
+        x
     // |> fun x ->
     //     printfn "%A" x
     //     x
