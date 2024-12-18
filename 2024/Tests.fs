@@ -54,3 +54,4 @@ type Tests(output: ITestOutputHelper) =
     [<Fact>]
     let ``Day 10`` () =
         output.WriteLine ($"SumOfScores: {Day10.sumOfScores ()}")
+        output.WriteLine ($"Su,OfRatings: {Day10.sumOfRatings ()}")
