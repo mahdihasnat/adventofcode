@@ -50,3 +50,7 @@ type Tests(output: ITestOutputHelper) =
     let ``Day 09`` () =
         output.WriteLine($"CheckSum: {Day09.checkSum ()}")
         output.WriteLine($"CgeckSumWithCompleteMove: {Day09.checkSumWithCompleteMove ()}")
+
+    [<Fact>]
+    let ``Day 10`` () =
+        output.WriteLine ($"SumOfScores: {Day10.sumOfScores ()}")
